@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njupt.nymeeting.mapper.MeetingMapper">
+    <sql id="insertMeetingParameter">
+        <trim  prefix="," suffixOverrides=",">
+            <if test="subject!=null and subject!=''">subject,</if>
+            <if test="describle!=null and describle!=''">describle,</if>
+            <if test="startDate!=null">start_date,</if>
+            <if test="site!=null and site!=''">site,</if>
+            <if test="signDate!=null">sign_date,</if>
+            <if test="endDate!=null">end_date,</if>
+            <if test="remake!=null and remake!=''">remake,</if>
+            <if test="state!=null and state!=''">state,</if>
+            <if test="createUser!=null and createUser!=''">create_user,</if>
+            <if test="updateUser!=null and updateUser!=''">update_user,</if>
+        </trim>
+    </sql>
+    <sql id="insertMeetingFieldValues">
+        <trim prefix="," suffixOverrides=",">
+            <if test="subject!=null and subject!=''">#{subject},</if>
+            <if test="describle!=null and describle!=''">#{describle},</if>
+            <if test="startDate!=null">#{startDate},</if>
+            <if test="site!=null and site!=''">#{site},</if>
+            <if test="signDate!=null">#{signDate},</if>
+            <if test="endDate!=null">#{endDate},</if>
+            <if test="remake!=null and remake!=''">#{remake},</if>
+            <if test="state!=null and state!=''">#{state},</if>
+            <if test="createUser!=null and createUser!=''">#{createUser},</if>
+            <if test="updateUser!=null and updateUser!=''">#{updateUser},</if>
+        </trim>
+    </sql>
+
+    <insert id="insertMeeting" parameterType="MeetingVO" useGeneratedKeys="true" keyProperty="meeting_id">
+        insert into meeting(creat_date<include refid="insertMeetingParameter" />)
+        values(SYSDATE()<include refid="insertMeetingFieldValues" />)
+    </insert>
+    <update id="updateMeeting" parameterType="MeetingVO">
+        UPDATE meeting SET update_date = SYSDATE()
+        <trim  prefix="," suffixOverrides=",">
+            <if test="subject!=null and subject!=''">subject=#{subject},</if>
+            <if test="describle!=null and describle!=''">describle=#{describle},</if>
+            <if test="startDate!=null">start_date=#{startDate},</if>
+            <if test="site!=null and site!=''">site=#{site},</if>
+            <if test="signDate!=null">sign_date=#{signDate},</if>
+            <if test="endDate!=null">end_date=#{endDate},</if>
+            <if test="remake!=null and remake!=''">remake=#{remake},</if>
+            <if test="state!=null and state!=''">state=#{state},</if>
+            <if test="createUser!=null and createUser!=''">create_user=#{createUser},</if>
+            <if test="updateUser!=null and updateUser!=''">update_user=#{updateUser},</if>
+        </trim>
+        WHERE meeting_id = #{meetingId}
+    </update>
+    <select id="selectMeeting" parameterType="java.lang.Long" resultType="MeetingDTO">
+        SELECT * FROM meeting WHERE meeting_id = #{meetingId}
+    </select>
+    <select id="selectMeetingList" resultType="MeetingDTO">
+        SELECT * FROM meeting
+    </select>
+
+</mapper>
